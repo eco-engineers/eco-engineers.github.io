@@ -46,7 +46,7 @@ body{
 .b3{width:100px;height:100px;right:5%;top:20%;animation-delay:-9s}
 @keyframes drift{to{transform:translateY(-28px)}}
 
-.wrap{max-width:1280px;margin:0 auto;padding:20px}
+.wrap{max-width:1840px;margin:0 auto;padding:20px clamp(16px,2.5vw,48px)}
 
 /* ---------- header ---------- */
 .header{
@@ -143,6 +143,31 @@ body{
 
 .note{font-size:.85rem;color:#155e75;font-weight:500;max-width:44ch}
 
+/* ---------- explore cards ---------- */
+.explore{margin-top:24px}
+.explore h2{color:#fff;font-size:1.5rem;margin:0 6px 4px;text-shadow:0 2px 8px rgba(8,51,68,.35)}
+.explore .sub{color:rgba(255,255,255,.9);margin:0 6px 16px;font-size:.95rem}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media (max-width:1150px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.cards{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.93);border-radius:24px;overflow:hidden;
+  box-shadow:0 10px 26px rgba(8,51,68,.22);display:flex;flex-direction:column}
+.card-art{height:120px;display:grid;place-items:center}
+.card-art svg{height:92px;width:auto}
+.art-water{background:linear-gradient(135deg,#7dd3fc,#0891b2)}
+.art-ph{background:linear-gradient(135deg,#a7f3d0,#0e7490)}
+.art-life{background:linear-gradient(135deg,#bae6fd,#2563eb)}
+.art-lab{background:linear-gradient(135deg,#c4b5fd,#0891b2)}
+.card-body{padding:16px 20px 22px;font-size:.9rem;line-height:1.55}
+.card h3{font-size:1.08rem;margin-bottom:6px}
+.card ul{padding-left:18px}
+.card li{margin-bottom:5px}
+.ph{height:14px;border-radius:99px;position:relative;margin:16px 0 6px;
+  background:linear-gradient(90deg,#dc2626,#f59e0b,#eab308,#22c55e,#06b6d4,#3b82f6,#7c3aed)}
+.ph-safe{position:absolute;top:-5px;bottom:-5px;left:46.4%;width:14.3%;
+  border:3px solid #083344;border-radius:8px}
+.ph-labels{display:flex;justify-content:space-between;font-size:.75rem;font-weight:600}
+
 footer{text-align:center;color:rgba(255,255,255,.85);font-size:.85rem;padding:22px 0 6px}
 
 :focus-visible{outline:3px solid #fff;outline-offset:3px}
@@ -158,13 +183,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/fireba
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDOo74IoJTMqIN3SrxCy84DQqAQQUFFv8U",
+  apiKey: "YOUR_API_KEY",
   authDomain: "fll-color-display.firebaseapp.com",
   databaseURL: "https://fll-color-display-default-rtdb.firebaseio.com",
   projectId: "fll-color-display",
   storageBucket: "fll-color-display.firebasestorage.app",
   messagingSenderId: "403048053250",
-  appId: "1:403048053250:web:fb4f45485c7af6fb2bc51b"
+  appId: "YOUR_APP_ID"
 };
 
 const db = getDatabase(initializeApp(firebaseConfig));
@@ -276,6 +301,91 @@ $("bacteriaImage").addEventListener("error", e => e.target.classList.remove("sho
     </section>
 
   </main>
+
+  <section class="explore">
+    <h2>Explore water quality</h2>
+    <p class="sub">Why clean water matters, how it is measured, and what we can do about it.</p>
+
+    <div class="cards">
+
+      <article class="card">
+        <div class="card-art art-water">
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <path d="M60 6C60 6 28 42 28 60a32 32 0 0 0 64 0C92 42 60 6 60 6z" fill="#fff" fill-opacity=".95"/>
+            <path d="M60 14C60 14 36 44 36 60a24 24 0 0 0 48 0C84 44 60 14 60 14z" fill="#38bdf8"/>
+            <path d="M47 62a13 13 0 0 0 11 13" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>Did you know?</h3>
+          <ul>
+            <li>About 71% of Earth is covered by water.</li>
+            <li>Only about 1% of Earth's water is fresh water that people can easily use.</li>
+            <li>Warm, nutrient-rich water can grow cyanobacteria (blue-green algae), and some kinds make toxins.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art art-ph">
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <path d="M44 8h32v6h-5v22l20 38a8 8 0 0 1-7 12H36a8 8 0 0 1-7-12l20-38V14h-5z" fill="#fff" fill-opacity=".95"/>
+            <path d="M40 56h40l12 22a4 4 0 0 1-3 6H31a4 4 0 0 1-3-6z" fill="#22d3ee"/>
+            <circle cx="52" cy="68" r="4" fill="#fff"/><circle cx="68" cy="73" r="3" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>Is the water healthy? Check the pH</h3>
+          <p>pH tells us how acidic or basic water is. Drinking water is usually kept between 6.5 and 8.5.</p>
+          <div class="ph"><div class="ph-safe"></div></div>
+          <div class="ph-labels"><span>0 acid</span><span>7 neutral</span><span>14 base</span></div>
+          <p style="margin-top:10px">Other clues: cloudy water (turbidity), temperature, and color.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art art-life">
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <path d="M18 46c14-20 40-22 62-8l20-14v44L80 54C58 68 32 66 18 46z" fill="#fff" fill-opacity=".95"/>
+            <circle cx="36" cy="43" r="4" fill="#083344"/>
+            <path d="M0 76q15-10 30 0t30 0 30 0 30 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>How we can protect water</h3>
+          <ul>
+            <li>Never pour paint, oil, or chemicals down a drain.</li>
+            <li>Use less fertilizer. Rain washes it into streams and feeds algae blooms.</li>
+            <li>Pick up litter near rivers, ponds, and storm drains.</li>
+            <li>Turn off the tap while brushing your teeth.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art art-lab">
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <rect x="14" y="52" width="92" height="30" rx="6" fill="#fff" fill-opacity=".95"/>
+            <rect x="26" y="20" width="10" height="34" rx="3" fill="#fff"/>
+            <rect x="52" y="10" width="10" height="44" rx="3" fill="#fff"/>
+            <rect x="78" y="28" width="10" height="26" rx="3" fill="#fff"/>
+            <circle cx="31" cy="16" r="6" fill="#22d3ee"/><circle cx="57" cy="6" r="6" fill="#22c55e"/><circle cx="83" cy="24" r="6" fill="#f59e0b"/>
+            <path d="M24 68h20M52 68h12M72 68h24" stroke="#0891b2" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>Ideas to try next</h3>
+          <ul>
+            <li>Compare tap, rain, pond, and filtered water.</li>
+            <li>Build a filter from sand, gravel, and charcoal and measure how clear the water gets.</li>
+            <li>Add more sensors to the robot for pH, temperature, and cloudiness.</li>
+            <li>Send a text or email alert when a harmful bloom is detected.</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </section>
 
   <footer>Built by the Eco Engineers · FIRST LEGO League</footer>
 </div>
