@@ -36,15 +36,23 @@ body{
 }
 
 /* gentle floating bubbles */
-.bubble{
-  position:fixed;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35),rgba(255,255,255,.06));
-  animation:drift 14s ease-in-out infinite alternate;
+/* water drops (teardrop = rotated square with one sharp corner) */
+.drop{
+  position:fixed;z-index:0;pointer-events:none;
+  width:var(--s);height:var(--s);
+  border-radius:50% 0 50% 50%;
+  transform:rotate(-45deg);
+  background:radial-gradient(circle at 65% 35%,rgba(255,255,255,.75) 0 8%,rgba(255,255,255,.28) 9% 40%,rgba(255,255,255,.1) 70%);
+  border:1.5px solid rgba(255,255,255,.45);
+  box-shadow:inset -6px -6px 14px rgba(8,145,178,.25);
+  animation:drift var(--t,12s) ease-in-out infinite alternate;
+  animation-delay:var(--d,0s);
 }
-.b1{width:120px;height:120px;top:12%;left:4%}
-.b2{width:70px;height:70px;top:72%;left:12%;animation-delay:-5s}
-.b3{width:100px;height:100px;right:5%;top:20%;animation-delay:-9s}
-@keyframes drift{to{transform:translateY(-28px)}}
+@keyframes drift{
+  from{transform:rotate(-45deg) translate(0,0)}
+  to{transform:rotate(-45deg) translate(-18px,-34px)}
+}
+.wrap{position:relative;z-index:1}
 
 .wrap{max-width:1840px;margin:0 auto;padding:20px clamp(16px,2.5vw,48px)}
 
@@ -238,9 +246,15 @@ $("bacteriaImage").addEventListener("error", e => e.target.classList.remove("sho
 </head>
 
 <body>
-<div class="bubble b1"></div>
-<div class="bubble b2"></div>
-<div class="bubble b3"></div>
+<div class="drop" style="--s:90px;left:2%;top:14%;--d:0s"></div>
+<div class="drop" style="--s:46px;left:8%;top:46%;--d:-4s;--t:10s"></div>
+<div class="drop" style="--s:70px;left:3%;top:76%;--d:-7s;--t:14s"></div>
+<div class="drop" style="--s:56px;left:30%;top:88%;--d:-2s;--t:11s"></div>
+<div class="drop" style="--s:38px;left:52%;top:6%;--d:-6s;--t:9s"></div>
+<div class="drop" style="--s:80px;right:3%;top:18%;--d:-9s;--t:13s"></div>
+<div class="drop" style="--s:50px;right:7%;top:52%;--d:-3s;--t:10s"></div>
+<div class="drop" style="--s:66px;right:2%;top:80%;--d:-8s;--t:15s"></div>
+<div class="drop" style="--s:34px;right:34%;top:90%;--d:-5s;--t:9s"></div>
 
 <div class="wrap">
 
