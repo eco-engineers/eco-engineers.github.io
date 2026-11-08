@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECO ENGINEERS - Water Quality Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+
+        font-family:'Poppins',sans-serif;
+
+        background:
+        radial-gradient(circle at top,
+            #7dd3fc 0%,
+            #38bdf8 25%,
+            #0891b2 60%,
+            #164e63 100%);
+
+        min-height:100vh;
+
+        overflow:hidden;
+    }
+
+    .bubble{
+        position:fixed;
+        border-radius:50%;
+        background:rgba(255,255,255,.12);
+        pointer-events:none;
+    }
+
+    .b1{
+        width:120px;
+        height:120px;
+        top:10%;
+        left:5%;
+    }
+
+    .b2{
+        width:80px;
+        height:80px;
+        top:70%;
+        left:15%;
+    }
+
+    .b3{
+        width:100px;
+        height:100px;
+        right:8%;
+        top:18%;
+    }
+
+    .header{
+
+        margin:15px;
+
+        padding:15px;
+
+        text-align:center;
+
+        border-radius:25px;
+
+        background:rgba(255,255,255,.18);
+
+        backdrop-filter:blur(10px);
+
+        box-shadow:0 8px 25px rgba(0,0,0,.2);
+    }
+
+    .header h1{
+
+    color:#083344;
+
+    font-size:2.2rem;
+
+    font-weight:800;
+
+    letter-spacing:5px;
+}
+
+    .header p{
+
+        color:#164e63;
+
+        font-size:1.1rem;
+
+        font-weight:600;
+    }
+
+    .container{
+
+        display:flex;
+
+        gap:20px;
+
+        padding:15px;
+
+        height:calc(100vh - 120px);
+    }
+
+    .left-panel{
+
+    width:55%;
+
+    background:rgba(255,255,255,.18);
+
+    border-radius:30px;
+
+    padding:20px;
+
+    backdrop-filter:blur(12px);
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+    .logo{
+
+        width:140px;
+
+        margin:0 auto 15px auto;
+    }
+
+    .team-photo{
+
+    width:100%;
+
+    max-height:430px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    border:4px solid white;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+}
+    .project-card{
+
+    margin-top:15px;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:rgba(0,0,0,.15);
+
+    color:white;
+
+    font-size:1.05rem;
+
+    line-height:1.7;
+
+    flex-grow:1;
+}
+
+    .project-card h2{
+
+        margin-bottom:10px;
+    }
+.right-panel{
+
+    width:45%;
+
+    background:
+    linear-gradient(
+        135deg,
+        #dbeafe,
+        #7dd3fc,
+        #0891b2
+    );
+
+    border-radius:30px;
+
+    border:3px solid white;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    text-align:center;
+}
+
+    .analysis-title{
+
+        background:white;
+
+        color:#0f172a;
+
+        padding:10px 20px;
+
+        border-radius:20px;
+
+        font-weight:700;
+
+        margin-bottom:25px;
+    }
+
+    #bacteriaImage{
+
+    width:260px;
+
+    max-width:75%;
+
+    border-radius:20px;
+
+    border:6px solid white;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+    display:none;
+}
+
+    #statusMessage{
+
+        margin-top:25px;
+
+        padding:18px 30px;
+
+        border-radius:20px;
+
+        font-size:1.8rem;
+
+        font-weight:800;
+
+        display:block;
+
+        color:white;
+    }
+
+    #timestamp{
+
+        margin-top:20px;
+
+        color:white;
+
+        font-size:1.2rem;
+
+        font-weight:600;
+    }
+
+    </style>
+
+    <script type="module">
+
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+
+    import {
+        getDatabase,
+        ref,
+        onValue
+    }
+    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    const firebaseConfig = {
+
+      apiKey: "YOUR_API_KEY",
+
+      authDomain: "fll-color-display.firebaseapp.com",
+
+      databaseURL:
+      "https://fll-color-display-default-rtdb.firebaseio.com",
+
+      projectId: "fll-color-display",
+
+      storageBucket:
+      "fll-color-display.firebasestorage.app",
+
+      messagingSenderId: "403048053250",
+
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const db = getDatabase(app);
+
+    onValue(ref(db,"sensor"),(snapshot)=>{
+
+        const data = snapshot.val();
+
+        if(!data) return;
+
+        let color =
+            (data.color || "UNKNOWN")
+            .toUpperCase()
+            .trim();
+
+        const image =
+            document.getElementById("bacteriaImage");
+
+        const message =
+            document.getElementById("statusMessage");
+
+        if(
+            color === "RED" ||
+            color === "MAGENTA" ||
+            color === "PINK"
+        ){
+
+            image.src =
+                "cyanobacteria.jpeg";
+
+            image.style.display =
+                "block";
+
+            message.innerHTML =
+                "⚠️ CYANOBACTERIA DETECTED";
+
+            message.style.background =
+                "#dc2626";
+
+        }
+        else{
+
+            image.style.display =
+                "none";
+
+            message.innerHTML =
+                "✅ NO BACTERIA DETECTED";
+
+            message.style.background =
+                "#059669";
+        }
+
+        document.getElementById("timestamp")
+            .innerText =
+            "Last Updated: " +
+            (data.timestamp || "--");
+    });
+
+    </script>
+
+</head>
+
+<body>
+
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+
+<div class="header">
+
+    <h1>ECO ENGINEERS</h1>
+
+    <p>Water Quality Research Dashboard</p>
+
+</div>
+
+<div class="container">
+
+    <div class="left-panel">
+
+        <img
+            src="logo.jpeg"
+            class="logo">
+
+        <img
+            src="team-picture.jpeg"
+            class="team-photo">
+
+       <div class="project-card">
+
+    <h2>Project Overview</h2>
+
+    <p>
+    Our system uses a LEGO SPIKE Essential color sensor
+    to monitor water quality indicators and detect
+    harmful bacteria in water samples.
+    </p>
+
+    <br>
+
+    <p>
+    The sensor output is processed using OCR,
+    automatically synchronized to Firebase,
+    and displayed on this live monitoring dashboard.
+    </p>
+
+    <br>
+
+    <p>
+    This project demonstrates how robotics,
+    computer vision, cloud technology,
+    and environmental science can work together
+    to protect aquatic ecosystems.
+    </p>
+
+</div>
+
+    </div>
+
+    <div class="right-panel">
+
+        <div class="analysis-title">
+            Water Sample Analysis
+        </div>
+
+        <img
+            id="bacteriaImage"
+            src="">
+
+        <div id="statusMessage">
+            ✅ NO BACTERIA DETECTED
+        </div>
+
+        <div id="timestamp">
+            --
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
