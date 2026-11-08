@@ -1,477 +1,283 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>ECO ENGINEERS - Water Quality Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ECO ENGINEERS - Water Quality Dashboard</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --deep:#083344;
+  --teal:#0e7490;
+  --aqua:#38bdf8;
+  --foam:#e0f7ff;
+  --safe:#059669;
+  --alert:#dc2626;
+  --wait:#64748b;
+  --glass:rgba(255,255,255,.2);
+  --status:var(--wait);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 
-    <style>
-
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-    }
-
-    body{
-
-    font-family:'Poppins',sans-serif;
-
-    background:
-    radial-gradient(circle at top,
-        #7dd3fc 0%,
-        #38bdf8 25%,
-        #0891b2 60%,
-        #164e63 100%);
-
-    min-height:100vh;
-
-    overflow-x:hidden;
-
-    overflow-y:auto;
+body{
+  font-family:'Poppins',system-ui,sans-serif;
+  color:var(--deep);
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 50% -10%, #bae6fd 0%, transparent 55%),
+    linear-gradient(180deg,#38bdf8 0%,#0891b2 55%,#155e75 100%);
+  background-attachment:fixed;
+  overflow-x:hidden;
 }
 
-    .bubble{
-        position:fixed;
-        border-radius:50%;
-        background:rgba(255,255,255,.12);
-        pointer-events:none;
-    }
+/* gentle floating bubbles */
+.bubble{
+  position:fixed;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35),rgba(255,255,255,.06));
+  animation:drift 14s ease-in-out infinite alternate;
+}
+.b1{width:120px;height:120px;top:12%;left:4%}
+.b2{width:70px;height:70px;top:72%;left:12%;animation-delay:-5s}
+.b3{width:100px;height:100px;right:5%;top:20%;animation-delay:-9s}
+@keyframes drift{to{transform:translateY(-28px)}}
 
-    .b1{
-        width:120px;
-        height:120px;
-        top:10%;
-        left:5%;
-    }
+.wrap{max-width:1280px;margin:0 auto;padding:20px}
 
-    .b2{
-        width:80px;
-        height:80px;
-        top:70%;
-        left:15%;
-    }
+/* ---------- header ---------- */
+.header{
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  padding:18px 24px;margin-bottom:20px;border-radius:28px;
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 10px 30px rgba(8,51,68,.18);
+}
+.header-logo{width:84px;height:84px;object-fit:cover;border-radius:50%;
+  border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.header h1{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:.14em;line-height:1.1}
+.header p{font-weight:500;color:#155e75;font-size:clamp(.85rem,2vw,1.05rem);margin-top:4px}
 
-    .b3{
-        width:100px;
-        height:100px;
-        right:8%;
-        top:18%;
-    }
-
-    .header{
-
-        margin:15px;
-
-        padding:15px;
-
-        border-radius:25px;
-
-        background:rgba(255,255,255,.18);
-
-        backdrop-filter:blur(10px);
-
-        box-shadow:0 8px 25px rgba(0,0,0,.2);
-    }
-
-    .header-content{
-
-        display:flex;
-
-        justify-content:center;
-
-        align-items:center;
-
-        gap:20px;
-    }
-
-    .header-logo{
-
-        width:80px;
-    }
-
-    .header h1{
-
-        color:#083344;
-
-        font-size:2.2rem;
-
-        font-weight:800;
-
-        letter-spacing:5px;
-    }
-
-    .header p{
-
-        color:#164e63;
-
-        font-size:1rem;
-
-        font-weight:600;
-    }
-
-    .container{
-
-    display:flex;
-
-     display:flex;
-
-    gap:20px;
-
-    padding:15px;
-
-    min-height:calc(100vh - 120px);
+/* ---------- layout ---------- */
+.container{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:stretch}
+@media (max-width:900px){
+  .container{grid-template-columns:1fr}
+  .header{flex-direction:column;text-align:center;gap:10px}
 }
 
-.left-panel{
-
-    width:55%;
-
-    background:rgba(255,255,255,.18);
-
-    border-radius:30px;
-
-    padding:15px;
-
-    backdrop-filter:blur(12px);
-
-    display:flex;
-
-    flex-direction:column;
-
-    height:92%;
+.panel{
+  border-radius:28px;padding:18px;
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 10px 30px rgba(8,51,68,.18);
+  display:flex;flex-direction:column;gap:16px;
 }
 
-    .team-photo{
-
-    width:100%;
-
-    max-height:420px;
-
-    object-fit:contain;
-
-    border-radius:20px;
-
-    border:4px solid rgba(255,255,255,0.7);
-
-    background:transparent;
-
-    box-shadow:
-        0 8px 20px rgba(0,0,0,0.3);
+/* ---------- left panel ---------- */
+.photo-frame{position:relative;border-radius:20px;overflow:hidden;
+  border:4px solid rgba(255,255,255,.85);box-shadow:0 8px 22px rgba(0,0,0,.25)}
+.team-photo{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:center 30%}
+.photo-caption{
+  position:absolute;left:0;right:0;bottom:0;padding:28px 18px 12px;
+  background:linear-gradient(transparent,rgba(8,51,68,.8));
+  color:#fff;font-weight:600;font-size:1rem;
 }
 
-   .project-card{
-
-    margin-top:15px;
-
-    padding:16px;
-
-    border-radius:20px;
-
-    background:rgba(0,0,0,.18);
-
-    color:white;
-
-    font-size:.95rem;
-
-    line-height:1.5;
+.project-card{
+  border-radius:20px;padding:20px 22px;color:#fff;
+  background:rgba(8,51,68,.55);
+  line-height:1.6;font-size:.95rem;
 }
+.project-card h2{font-size:1.25rem;margin-bottom:8px}
+.project-card p{max-width:68ch}
 
-    .project-card h2{
-
-        margin-bottom:10px;
-    }
-
-    .right-panel{
-
-    width:45%;
-        height:92%;
-
-    background:
-    linear-gradient(
-        135deg,
-        #dbeafe,
-        #7dd3fc,
-        #0891b2
-    );
-
-    border-radius:30px;
-
-    border:3px solid white;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    padding:25px;
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.steps li{
+  background:rgba(255,255,255,.14);border-radius:14px;padding:10px 12px;
+  font-size:.8rem;font-weight:500;line-height:1.3;
 }
+.steps b{display:block;font-size:1.1rem;color:#7dd3fc;margin-bottom:2px}
+@media (max-width:560px){.steps{grid-template-columns:repeat(2,1fr)}}
 
-    .analysis-title{
-
-        background:white;
-
-        color:#0f172a;
-
-        padding:10px 20px;
-
-        border-radius:20px;
-
-        font-weight:700;
-
-        margin-bottom:25px;
-    }
-
-    #bacteriaImage{
-
-    width:360px;
-
-    max-width:85%;
-
-    border-radius:20px;
-
-    border:6px solid white;
-
-    box-shadow:0 8px 25px rgba(0,0,0,.25);
-
-    display:none;
-
-    margin-bottom:20px;
+/* ---------- right panel (live result) ---------- */
+.result{
+  align-items:center;text-align:center;justify-content:center;
+  background:linear-gradient(160deg,#f0f9ff 0%,#bae6fd 55%,#38bdf8 100%);
+  border:3px solid #fff;padding:26px 22px;
+  transition:box-shadow .4s;
 }
+.result.alert{box-shadow:0 0 0 4px rgba(220,38,38,.35),0 10px 30px rgba(8,51,68,.25)}
 
-    #statusMessage{
+.result-top{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.analysis-title{background:#fff;padding:8px 18px;border-radius:999px;font-weight:700;font-size:.95rem;
+  box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.live{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--deep)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--wait)}
+.live.on .dot{background:#22c55e;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}100%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
 
-        min-width:420px;
-
-        text-align:center;
-
-        margin-top:20px;
-
-        padding:18px 30px;
-
-        border-radius:20px;
-
-        font-size:1.75rem;
-
-        font-weight:800;
-
-        color:white;
-    }
-
-    #timestamp{
-
-        margin-top:20px;
-
-        color:white;
-
-        font-size:1.15rem;
-
-        font-weight:600;
-    }
-
-        /* Chrome, Edge, Safari */
-
-::-webkit-scrollbar {
-    width: 12px;
+#bacteriaImage{
+  width:min(340px,80%);aspect-ratio:1/1;object-fit:cover;
+  border-radius:20px;border:6px solid #fff;box-shadow:0 8px 25px rgba(0,0,0,.25);
+  display:none;
 }
+#bacteriaImage.show{display:block;animation:pop .5s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 
-::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.15);
+#statusMessage{
+  width:100%;max-width:460px;padding:18px 24px;border-radius:20px;
+  font-size:clamp(1.15rem,2.6vw,1.6rem);font-weight:800;color:#fff;
+  background:var(--status);box-shadow:0 6px 18px rgba(0,0,0,.25);
+  transition:background .4s;
 }
+.alert #statusMessage{animation:throb 1.6s ease-in-out infinite}
+@keyframes throb{50%{transform:scale(1.03)}}
 
-::-webkit-scrollbar-thumb {
+.meta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:.95rem;font-weight:600}
+.meta span{background:rgba(255,255,255,.7);padding:6px 14px;border-radius:999px}
+.swatch{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;
+  vertical-align:-1px;border:1px solid rgba(0,0,0,.25);background:#cbd5e1}
 
-    background: rgba(255,255,255,0.45);
+.note{font-size:.85rem;color:#155e75;font-weight:500;max-width:44ch}
 
-    border-radius: 20px;
-}
+footer{text-align:center;color:rgba(255,255,255,.85);font-size:.85rem;padding:22px 0 6px}
 
-::-webkit-scrollbar-thumb:hover {
+:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-    background: rgba(255,255,255,0.65);
-}
+::-webkit-scrollbar{width:12px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.15)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.45);border-radius:20px}
+</style>
 
-        html{
-    scroll-behavior:smooth;
-}
-        
-    </style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
-    <script type="module">
+const firebaseConfig = {
+  apiKey: "AIzaSyDOo74IoJTMqIN3SrxCy84DQqAQQUFFv8U",
+  authDomain: "fll-color-display.firebaseapp.com",
+  databaseURL: "https://fll-color-display-default-rtdb.firebaseio.com",
+  projectId: "fll-color-display",
+  storageBucket: "fll-color-display.firebasestorage.app",
+  messagingSenderId: "403048053250",
+  appId: "1:403048053250:web:fb4f45485c7af6fb2bc51b"
+};
 
-    import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+const db = getDatabase(initializeApp(firebaseConfig));
 
-    import {
-        getDatabase,
-        ref,
-        onValue
-    }
-    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+const $ = id => document.getElementById(id);
+const SWATCH = { RED:"#dc2626", MAGENTA:"#d946ef", PINK:"#ec4899", GREEN:"#16a34a",
+                 BLUE:"#2563eb", YELLOW:"#eab308", WHITE:"#f8fafc", BLACK:"#111827" };
 
-    const firebaseConfig = {
+onValue(ref(db, "sensor"), (snapshot) => {
+  const data = snapshot.val();
+  if (!data) return;
 
-        apiKey: "YOUR_API_KEY",
+  const color = (data.color || "UNKNOWN").toUpperCase().trim();
+  const detected = ["RED","MAGENTA","PINK"].includes(color);
 
-        authDomain: "fll-color-display.firebaseapp.com",
+  const card = $("resultCard");
+  const img = $("bacteriaImage");
+  const msg = $("statusMessage");
 
-        databaseURL:
-        "https://fll-color-display-default-rtdb.firebaseio.com",
+  card.classList.toggle("alert", detected);
+  $("live").classList.add("on");
+  $("liveText").textContent = "Live";
 
-        projectId: "fll-color-display",
+  if (detected) {
+    img.src = "cyanobacteria.jpeg";
+    img.classList.add("show");
+    msg.textContent = "⚠️ CYANOBACTERIA DETECTED";
+    document.documentElement.style.setProperty("--status", "var(--alert)");
+    $("note").textContent = "Harmful algae bloom indicator. Avoid contact with this water.";
+  } else {
+    img.classList.remove("show");
+    msg.textContent = "✅ NO BACTERIA DETECTED";
+    document.documentElement.style.setProperty("--status", "var(--safe)");
+    $("note").textContent = "Sample color is within the safe range.";
+  }
 
-        storageBucket:
-        "fll-color-display.firebasestorage.app",
+  $("colorLabel").textContent = color.charAt(0) + color.slice(1).toLowerCase();
+  $("swatch").style.background = SWATCH[color] || "#cbd5e1";
 
-        messagingSenderId: "403048053250",
+  // use a timestamp from the sensor if one is sent, otherwise the time we received it
+  const when = data.timestamp ? new Date(data.timestamp) : new Date();
+  $("timestamp").textContent = "Updated " +
+    (isNaN(when) ? String(data.timestamp) : when.toLocaleString([], {dateStyle:"medium", timeStyle:"medium"}));
+}, () => {
+  $("liveText").textContent = "Connection lost";
+  $("live").classList.remove("on");
+});
 
-        appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-
-    const db = getDatabase(app);
-
-    onValue(ref(db,"sensor"),(snapshot)=>{
-
-        const data = snapshot.val();
-
-        if(!data) return;
-
-        const color =
-            (data.color || "UNKNOWN")
-            .toUpperCase()
-            .trim();
-
-        const image =
-            document.getElementById("bacteriaImage");
-
-        const message =
-            document.getElementById("statusMessage");
-
-        if(
-    color === "RED" ||
-    color === "MAGENTA" ||
-    color === "PINK"
-){
-
-    image.src = "cyanobacteria.jpeg";
-
-    image.style.display = "block";
-
-    message.innerHTML =
-        "⚠️ CYANOBACTERIA DETECTED";
-
-    message.style.background =
-        "#dc2626";
-
-}
-else{
-
-    image.style.display =
-        "none";
-
-    message.innerHTML =
-        "✅ NO BACTERIA DETECTED";
-
-    message.style.background =
-        "#059669";
-}
-    });
-
-    </script>
-
+$("bacteriaImage").addEventListener("error", e => e.target.classList.remove("show"));
+</script>
 </head>
 
 <body>
-
 <div class="bubble b1"></div>
 <div class="bubble b2"></div>
 <div class="bubble b3"></div>
 
-<div class="header">
+<div class="wrap">
 
-    <div class="header-content">
-
-        <img
-            src="logo.jpeg"
-            class="header-logo">
-
-        <div>
-
-            <h1>ECO ENGINEERS</h1>
-
-            <p>
-                Real-Time Water Quality Monitoring System
-            </p>
-
-        </div>
-
+  <header class="header">
+    <img src="logo.jpeg" class="header-logo" alt="Eco Engineers team logo">
+    <div>
+      <h1>ECO ENGINEERS</h1>
+      <p>Real-Time Water Quality Monitoring System</p>
     </div>
+  </header>
 
+  <main class="container">
+
+    <section class="panel">
+      <div class="photo-frame">
+        <img src="team-picture.jpeg" class="team-photo" alt="The Eco Engineers team with their LEGO SPIKE robot">
+        <div class="photo-caption">Meet the Eco Engineers</div>
+      </div>
+
+      <div class="project-card">
+        <h2>🌊 Project Overview</h2>
+        <p>
+          LEGO SPIKE Essential detects water quality indicators. OCR reads the sensor
+          results and sends them to Firebase in real time. This dashboard analyzes the
+          incoming data and shows the water quality status, helping identify harmful
+          bacteria in water samples.
+        </p>
+        <ol class="steps">
+          <li><b>1</b>Robot senses the sample color</li>
+          <li><b>2</b>OCR reads the result</li>
+          <li><b>3</b>Firebase stores it live</li>
+          <li><b>4</b>Dashboard shows the status</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="panel result" id="resultCard" aria-live="polite">
+      <div class="result-top">
+        <div class="analysis-title">🧫 Bacteria Analysis Result</div>
+        <div class="live" id="live"><span class="dot"></span><span id="liveText">Waiting for sensor</span></div>
+      </div>
+
+      <img id="bacteriaImage" src="" alt="Microscope image of cyanobacteria">
+
+      <div id="statusMessage">Waiting for sensor data…</div>
+
+      <div class="meta">
+        <span><i class="swatch" id="swatch"></i>Sample color: <b id="colorLabel">--</b></span>
+        <span id="timestamp">--</span>
+      </div>
+
+      <p class="note" id="note">Place a water sample under the sensor to begin.</p>
+    </section>
+
+  </main>
+
+  <footer>Built by the Eco Engineers · FIRST LEGO League</footer>
 </div>
-
-<div class="container">
-
-    <div class="left-panel">
-
-        <img
-            src="team-picture.jpeg"
-            class="team-photo">
-
-        <div class="project-card">
-
-    <h2>🌊 Project Overview</h2>
-
-    <p>
-    LEGO SPIKE Essential detects water quality indicators.
-    OCR reads sensor results and automatically sends them
-    to Firebase in real time.
-    </p>
-
-    <br>
-
-    <p>
-    This dashboard analyzes incoming data and displays
-    water quality status, helping identify harmful
-    bacteria in water samples.
-    </p>
-
-</div>
-
-    </div>
-
-    <div class="right-panel">
-
-       <div class="analysis-title">
-    🧫 Bacteria Analysis Result
-</div>
-
-        <img
-            id="bacteriaImage"
-            src="">
-
-        <div id="statusMessage">
-            ✅ NO BACTERIA DETECTED
-        </div>
-
-        <div id="timestamp">
-            --
-        </div>
-
-    </div>
-
-</div>
-
 </body>
-
 </html>
