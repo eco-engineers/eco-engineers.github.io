@@ -123,56 +123,56 @@
         height:calc(100vh - 120px);
     }
 
-    .left-panel{
+.left-panel{
 
-        width:55%;
+    width:55%;
 
-        background:rgba(255,255,255,.18);
+    background:rgba(255,255,255,.18);
 
-        border-radius:30px;
+    border-radius:30px;
 
-        padding:15px;
+    padding:15px;
 
-        backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
 
-        display:flex;
+    display:flex;
 
-        flex-direction:column;
-    }
+    flex-direction:column;
+}
 
     .team-photo{
 
-        width:100%;
+    width:100%;
 
-        max-height:360px;
+    max-height:420px;
 
-        object-fit:cover;
+    object-fit:contain;
 
-        border-radius:20px;
+    border-radius:20px;
 
-        border:4px solid white;
+    border:4px solid white;
 
-        box-shadow:0 8px 20px rgba(0,0,0,0.3);
-    }
+    background:white;
 
-    .project-card{
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
 
-        margin-top:15px;
+   .project-card{
 
-        padding:18px;
+    margin-top:15px;
 
-        border-radius:20px;
+    padding:16px;
 
-        background:rgba(0,0,0,.18);
+    border-radius:20px;
 
-        color:white;
+    background:rgba(0,0,0,.18);
 
-        font-size:.95rem;
+    color:white;
 
-        line-height:1.6;
+    font-size:.95rem;
 
-        flex-grow:1;
-    }
+    line-height:1.5;
+}
 
     .project-card h2{
 
@@ -181,32 +181,32 @@
 
     .right-panel{
 
-        width:45%;
+    width:45%;
 
-        background:
-        linear-gradient(
-            135deg,
-            #dbeafe,
-            #7dd3fc,
-            #0891b2
-        );
+    background:
+    linear-gradient(
+        135deg,
+        #dbeafe,
+        #7dd3fc,
+        #0891b2
+    );
 
-        border-radius:30px;
+    border-radius:30px;
 
-        border:3px solid white;
+    border:3px solid white;
 
-        display:flex;
+    display:flex;
 
-        flex-direction:column;
+    flex-direction:column;
 
-        justify-content:center;
+    justify-content:center;
 
-        align-items:center;
+    align-items:center;
 
-        text-align:center;
+    text-align:center;
 
-        padding:25px;
-    }
+    padding:25px;
+}
 
     .analysis-title{
 
@@ -225,20 +225,20 @@
 
     #bacteriaImage{
 
-        width:320px;
+    width:360px;
 
-        max-width:80%;
+    max-width:85%;
 
-        border-radius:20px;
+    border-radius:20px;
 
-        border:6px solid white;
+    border:6px solid white;
 
-        box-shadow:0 8px 25px rgba(0,0,0,.25);
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
 
-        display:none;
+    display:none;
 
-        margin-bottom:20px;
-    }
+    margin-bottom:20px;
+}
 
     #statusMessage{
 
@@ -325,36 +325,33 @@
             document.getElementById("statusMessage");
 
         if(
-            color === "RED" ||
-            color === "MAGENTA" ||
-            color === "PINK"
-        ){
+    color === "RED" ||
+    color === "MAGENTA" ||
+    color === "PINK"
+){
 
-            image.src = "cyanobacteria.jpeg";
+    image.src = "cyanobacteria.jpeg";
 
-            image.style.display = "block";
+    image.style.display = "block";
 
-            message.innerHTML =
-                "⚠️ CYANOBACTERIA DETECTED";
+    message.innerHTML =
+        "⚠️ CYANOBACTERIA DETECTED";
 
-            message.style.background =
-                "#dc2626";
-        }
-        else{
+    message.style.background =
+        "#dc2626";
 
-            image.style.display = "none";
+}
+else{
 
-            message.innerHTML =
-                "✅ NO BACTERIA DETECTED";
+    image.style.display =
+        "none";
 
-            message.style.background =
-                "#059669";
-        }
+    message.innerHTML =
+        "✅ NO BACTERIA DETECTED";
 
-        document.getElementById("timestamp")
-            .innerText =
-            "Last Updated: " +
-            (data.timestamp || "--");
+    message.style.background =
+        "#059669";
+}
     });
 
     </script>
@@ -399,41 +396,31 @@
 
         <div class="project-card">
 
-            <h2>🌊 Project Overview</h2>
+    <h2>🌊 Project Overview</h2>
 
-            <p>
-                Our system uses a LEGO SPIKE Essential color sensor
-                to monitor water quality indicators and identify
-                harmful bacteria in water samples.
-            </p>
+    <p>
+    LEGO SPIKE Essential detects water quality indicators.
+    OCR reads sensor results and automatically sends them
+    to Firebase in real time.
+    </p>
 
-            <br>
+    <br>
 
-            <p>
-                Sensor output is captured using OCR,
-                automatically synchronized to Firebase
-                Realtime Database,
-                and displayed through this live dashboard.
-            </p>
+    <p>
+    This dashboard analyzes incoming data and displays
+    water quality status, helping identify harmful
+    bacteria in water samples.
+    </p>
 
-            <br>
-
-            <p>
-                This project demonstrates how robotics,
-                computer vision, cloud technology,
-                and environmental science can work together
-                to help protect aquatic ecosystems.
-            </p>
-
-        </div>
+</div>
 
     </div>
 
     <div class="right-panel">
 
-        <div class="analysis-title">
-            🧪 Water Sample Analysis
-        </div>
+       <div class="analysis-title">
+    🧫 Bacteria Analysis Result
+</div>
 
         <img
             id="bacteriaImage"
