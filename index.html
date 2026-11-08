@@ -218,16 +218,11 @@ onValue(ref(db, "sensor"), (snapshot) => {
     img.classList.add("show");
     msg.textContent = "⚠️ CYANOBACTERIA DETECTED";
     document.documentElement.style.setProperty("--status", "var(--alert)");
-    $("note").textContent = "Harmful algae bloom indicator. Avoid contact with this water.";
   } else {
     img.classList.remove("show");
     msg.textContent = "✅ NO BACTERIA DETECTED";
     document.documentElement.style.setProperty("--status", "var(--safe)");
-    $("note").textContent = "Sample color is within the safe range.";
   }
-
-  $("colorLabel").textContent = color.charAt(0) + color.slice(1).toLowerCase();
-  $("swatch").style.background = SWATCH[color] || "#cbd5e1";
 
   // use a timestamp from the sensor if one is sent, otherwise the time we received it
   const when = data.timestamp ? new Date(data.timestamp) : new Date();
@@ -293,11 +288,8 @@ $("bacteriaImage").addEventListener("error", e => e.target.classList.remove("sho
       <div id="statusMessage">Waiting for sensor data…</div>
 
       <div class="meta">
-        <span><i class="swatch" id="swatch"></i>Sample color: <b id="colorLabel">--</b></span>
         <span id="timestamp">--</span>
       </div>
-
-      <p class="note" id="note">Place a water sample under the sensor to begin.</p>
     </section>
 
   </main>
