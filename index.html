@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>ECO ENGINEERS - Water Quality Dashboard</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -65,8 +67,6 @@
 
         padding:15px;
 
-        text-align:center;
-
         border-radius:25px;
 
         background:rgba(255,255,255,.18);
@@ -76,22 +76,38 @@
         box-shadow:0 8px 25px rgba(0,0,0,.2);
     }
 
+    .header-content{
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        gap:20px;
+    }
+
+    .header-logo{
+
+        width:80px;
+    }
+
     .header h1{
 
-    color:#083344;
+        color:#083344;
 
-    font-size:2.2rem;
+        font-size:2.2rem;
 
-    font-weight:800;
+        font-weight:800;
 
-    letter-spacing:5px;
-}
+        letter-spacing:5px;
+    }
 
     .header p{
 
         color:#164e63;
 
-        font-size:1.1rem;
+        font-size:1rem;
 
         font-weight:600;
     }
@@ -109,93 +125,88 @@
 
     .left-panel{
 
-    width:55%;
+        width:55%;
 
-    background:rgba(255,255,255,.18);
+        background:rgba(255,255,255,.18);
 
-    border-radius:30px;
+        border-radius:30px;
 
-    padding:20px;
+        padding:15px;
 
-    backdrop-filter:blur(12px);
+        backdrop-filter:blur(12px);
 
-    display:flex;
+        display:flex;
 
-    flex-direction:column;
-}
-
-    .logo{
-
-        width:140px;
-
-        margin:0 auto 15px auto;
+        flex-direction:column;
     }
 
     .team-photo{
 
-    width:100%;
+        width:100%;
 
-    max-height:430px;
+        max-height:360px;
 
-    object-fit:cover;
+        object-fit:cover;
 
-    border-radius:20px;
+        border-radius:20px;
 
-    border:4px solid white;
+        border:4px solid white;
 
-    box-shadow:0 8px 20px rgba(0,0,0,0.4);
-}
+        box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    }
+
     .project-card{
 
-    margin-top:15px;
+        margin-top:15px;
 
-    padding:20px;
+        padding:18px;
 
-    border-radius:20px;
+        border-radius:20px;
 
-    background:rgba(0,0,0,.15);
+        background:rgba(0,0,0,.18);
 
-    color:white;
+        color:white;
 
-    font-size:1.05rem;
+        font-size:.95rem;
 
-    line-height:1.7;
+        line-height:1.6;
 
-    flex-grow:1;
-}
+        flex-grow:1;
+    }
 
     .project-card h2{
 
         margin-bottom:10px;
     }
-.right-panel{
 
-    width:45%;
+    .right-panel{
 
-    background:
-    linear-gradient(
-        135deg,
-        #dbeafe,
-        #7dd3fc,
-        #0891b2
-    );
+        width:45%;
 
-    border-radius:30px;
+        background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #7dd3fc,
+            #0891b2
+        );
 
-    border:3px solid white;
+        border-radius:30px;
 
-    display:flex;
+        border:3px solid white;
 
-    flex-direction:column;
+        display:flex;
 
-    justify-content:center;
+        flex-direction:column;
 
-    align-items:center;
+        justify-content:center;
 
-    padding:20px;
+        align-items:center;
 
-    text-align:center;
-}
+        text-align:center;
+
+        padding:25px;
+    }
 
     .analysis-title{
 
@@ -214,32 +225,36 @@
 
     #bacteriaImage{
 
-    width:260px;
+        width:320px;
 
-    max-width:75%;
+        max-width:80%;
 
-    border-radius:20px;
+        border-radius:20px;
 
-    border:6px solid white;
+        border:6px solid white;
 
-    box-shadow:0 8px 25px rgba(0,0,0,.25);
+        box-shadow:0 8px 25px rgba(0,0,0,.25);
 
-    display:none;
-}
+        display:none;
+
+        margin-bottom:20px;
+    }
 
     #statusMessage{
 
-        margin-top:25px;
+        min-width:420px;
+
+        text-align:center;
+
+        margin-top:20px;
 
         padding:18px 30px;
 
         border-radius:20px;
 
-        font-size:1.8rem;
+        font-size:1.75rem;
 
         font-weight:800;
-
-        display:block;
 
         color:white;
     }
@@ -250,7 +265,7 @@
 
         color:white;
 
-        font-size:1.2rem;
+        font-size:1.15rem;
 
         font-weight:600;
     }
@@ -271,21 +286,21 @@
 
     const firebaseConfig = {
 
-      apiKey: "YOUR_API_KEY",
+        apiKey: "YOUR_API_KEY",
 
-      authDomain: "fll-color-display.firebaseapp.com",
+        authDomain: "fll-color-display.firebaseapp.com",
 
-      databaseURL:
-      "https://fll-color-display-default-rtdb.firebaseio.com",
+        databaseURL:
+        "https://fll-color-display-default-rtdb.firebaseio.com",
 
-      projectId: "fll-color-display",
+        projectId: "fll-color-display",
 
-      storageBucket:
-      "fll-color-display.firebasestorage.app",
+        storageBucket:
+        "fll-color-display.firebasestorage.app",
 
-      messagingSenderId: "403048053250",
+        messagingSenderId: "403048053250",
 
-      appId: "YOUR_APP_ID"
+        appId: "YOUR_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -298,7 +313,7 @@
 
         if(!data) return;
 
-        let color =
+        const color =
             (data.color || "UNKNOWN")
             .toUpperCase()
             .trim();
@@ -315,23 +330,19 @@
             color === "PINK"
         ){
 
-            image.src =
-                "cyanobacteria.jpeg";
+            image.src = "cyanobacteria.jpeg";
 
-            image.style.display =
-                "block";
+            image.style.display = "block";
 
             message.innerHTML =
                 "⚠️ CYANOBACTERIA DETECTED";
 
             message.style.background =
                 "#dc2626";
-
         }
         else{
 
-            image.style.display =
-                "none";
+            image.style.display = "none";
 
             message.innerHTML =
                 "✅ NO BACTERIA DETECTED";
@@ -358,9 +369,23 @@
 
 <div class="header">
 
-    <h1>ECO ENGINEERS</h1>
+    <div class="header-content">
 
-    <p>Water Quality Research Dashboard</p>
+        <img
+            src="logo.jpeg"
+            class="header-logo">
+
+        <div>
+
+            <h1>ECO ENGINEERS</h1>
+
+            <p>
+                Real-Time Water Quality Monitoring System
+            </p>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -369,48 +394,45 @@
     <div class="left-panel">
 
         <img
-            src="logo.jpeg"
-            class="logo">
-
-        <img
             src="team-picture.jpeg"
             class="team-photo">
 
-       <div class="project-card">
+        <div class="project-card">
 
-    <h2>Project Overview</h2>
+            <h2>🌊 Project Overview</h2>
 
-    <p>
-    Our system uses a LEGO SPIKE Essential color sensor
-    to monitor water quality indicators and detect
-    harmful bacteria in water samples.
-    </p>
+            <p>
+                Our system uses a LEGO SPIKE Essential color sensor
+                to monitor water quality indicators and identify
+                harmful bacteria in water samples.
+            </p>
 
-    <br>
+            <br>
 
-    <p>
-    The sensor output is processed using OCR,
-    automatically synchronized to Firebase,
-    and displayed on this live monitoring dashboard.
-    </p>
+            <p>
+                Sensor output is captured using OCR,
+                automatically synchronized to Firebase
+                Realtime Database,
+                and displayed through this live dashboard.
+            </p>
 
-    <br>
+            <br>
 
-    <p>
-    This project demonstrates how robotics,
-    computer vision, cloud technology,
-    and environmental science can work together
-    to protect aquatic ecosystems.
-    </p>
+            <p>
+                This project demonstrates how robotics,
+                computer vision, cloud technology,
+                and environmental science can work together
+                to help protect aquatic ecosystems.
+            </p>
 
-</div>
+        </div>
 
     </div>
 
     <div class="right-panel">
 
         <div class="analysis-title">
-            Water Sample Analysis
+            🧪 Water Sample Analysis
         </div>
 
         <img
@@ -430,4 +452,5 @@
 </div>
 
 </body>
+
 </html>
