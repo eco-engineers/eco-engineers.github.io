@@ -19,19 +19,21 @@
 
     body{
 
-        font-family:'Poppins',sans-serif;
+    font-family:'Poppins',sans-serif;
 
-        background:
-        radial-gradient(circle at top,
-            #7dd3fc 0%,
-            #38bdf8 25%,
-            #0891b2 60%,
-            #164e63 100%);
+    background:
+    radial-gradient(circle at top,
+        #7dd3fc 0%,
+        #38bdf8 25%,
+        #0891b2 60%,
+        #164e63 100%);
 
-        min-height:100vh;
+    min-height:100vh;
 
-        overflow:hidden;
-    }
+    overflow-x:hidden;
+
+    overflow-y:auto;
+}
 
     .bubble{
         position:fixed;
@@ -116,13 +118,13 @@
 
     display:flex;
 
+     display:flex;
+
     gap:20px;
 
     padding:15px;
 
-    height:calc(100vh - 140px);
-
-    align-items:flex-start;
+    min-height:calc(100vh - 120px);
 }
 
 .left-panel{
@@ -276,6 +278,32 @@
         font-weight:600;
     }
 
+        /* Chrome, Edge, Safari */
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.15);
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: rgba(255,255,255,0.45);
+
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: rgba(255,255,255,0.65);
+}
+
+        html{
+    scroll-behavior:smooth;
+}
+        
     </style>
 
     <script type="module">
